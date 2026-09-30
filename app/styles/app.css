@@ -1,0 +1,184 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens. `static` keeps every variable in the output so components
+ * and inline SVG styles can read them with var() even when no utility uses them.
+ */
+@theme static {
+  /* Palette. Tailwind's default colours are removed so nothing off-brand can creep in. */
+  --color-*: initial;
+  --color-blush: #f5c8bc;
+  --color-green: #57b56a;
+  --color-orange: #ee7d3e;
+  --color-sage: #6db57e;
+  --color-cream: #f2fbdd;
+  --color-ink: #111111;
+  --color-paper: #ffffff;
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  /* Families */
+  --font-*: initial;
+  --font-display: "Inter Tight Variable", "Helvetica Neue", Arial, sans-serif;
+  --font-body: "Bitter Variable", Georgia, serif;
+  --font-dot: "Doto Variable", ui-monospace, monospace;
+
+  /* Type scale. Display sizes are fluid; body is fixed at 18px. */
+  --text-*: initial;
+  --text-small: 0.9375rem;
+  --text-small--line-height: 1.45;
+  --text-body: 1.125rem;
+  --text-body--line-height: 1.5;
+  --text-lead: clamp(1.25rem, 1.1rem + 0.6vw, 1.625rem);
+  --text-lead--line-height: 1.4;
+  --text-h3: clamp(1.5rem, 1.2rem + 1.2vw, 2.25rem);
+  --text-h3--line-height: 1.1;
+  --text-h2: clamp(2.25rem, 1.5rem + 3.5vw, 4.5rem);
+  --text-h2--line-height: 0.95;
+  --text-h1: clamp(3rem, 1.6rem + 6.5vw, 8rem);
+  --text-h1--line-height: 0.9;
+  /* Doto only: section numbers and large numerals */
+  --text-numeral: clamp(4rem, 2rem + 8vw, 10rem);
+  --text-numeral--line-height: 0.85;
+
+  --tracking-display: -0.045em;
+  --tracking-tight: -0.02em;
+  --tracking-label: 0.08em;
+
+  /* Layout */
+  --spacing-gutter: clamp(1rem, 0.5rem + 2vw, 2.5rem);
+  --spacing-section: clamp(4rem, 2rem + 8vw, 10rem);
+  --container-site: 90rem;
+  --container-prose: 40rem;
+  --radius-*: initial;
+
+  /* Motion */
+  --ease-pipette: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --duration-well: 220ms;
+  --duration-stagger: 22ms;
+}
+
+/*
+ * Colour blocks. Each tone sets its background and its only permitted text
+ * colour together, so a component cannot compose a failing pair.
+ * `tokens.test.ts` parses these rules and checks every pair for WCAG AA.
+ * Rule: text on green, orange and sage is always ink. Cream is only used on ink.
+ */
+:root {
+  --block-bg: var(--color-blush);
+  --block-fg: var(--color-ink);
+  /* Text that sits on a --block-fg fill, e.g. a primary button. */
+  --block-on-fg: var(--color-cream);
+}
+[data-tone="blush"] {
+  --block-bg: var(--color-blush);
+  --block-fg: var(--color-ink);
+}
+[data-tone="green"] {
+  --block-bg: var(--color-green);
+  --block-fg: var(--color-ink);
+}
+[data-tone="orange"] {
+  --block-bg: var(--color-orange);
+  --block-fg: var(--color-ink);
+}
+[data-tone="sage"] {
+  --block-bg: var(--color-sage);
+  --block-fg: var(--color-ink);
+}
+[data-tone="cream"] {
+  --block-bg: var(--color-cream);
+  --block-fg: var(--color-ink);
+}
+[data-tone="paper"] {
+  --block-bg: var(--color-paper);
+  --block-fg: var(--color-ink);
+}
+[data-tone="ink"] {
+  --block-bg: var(--color-ink);
+  --block-fg: var(--color-cream);
+  --block-on-fg: var(--color-ink);
+}
+[data-tone] {
+  background-color: var(--block-bg);
+  color: var(--block-fg);
+}
+
+@layer base {
+  html {
+    background-color: var(--color-blush);
+    color: var(--color-ink);
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+
+  body {
+    font-family: var(--font-body);
+    font-size: var(--text-body);
+    line-height: var(--text-body--line-height);
+    font-optical-sizing: auto;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 750;
+    letter-spacing: var(--tracking-tight);
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  /* Visible on every tone: the ring takes the block's text colour. */
+  :focus-visible {
+    outline: 3px solid var(--block-fg);
+    outline-offset: 3px;
+  }
+
+  ::selection {
+    background-color: var(--color-ink);
+    color: var(--color-cream);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+}
+
+/* Well plate: wells are "pipetted" in sequence. Pure CSS so it runs before hydration. */
+@keyframes well-pipette {
+  0% {
+    transform: scale(0);
+  }
+  70% {
+    transform: scale(1.14);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.well-fill {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.well-fill[data-animate] {
+  animation: well-pipette var(--duration-well) var(--ease-pipette) both;
+  animation-delay: calc(
+    var(--plate-delay, 0ms) + var(--well-index, 0) * var(--duration-stagger)
+  );
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .well-fill[data-animate] {
+    animation: none;
+  }
+}
