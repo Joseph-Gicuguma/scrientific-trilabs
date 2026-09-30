@@ -1,5 +1,5 @@
 import type { Tone } from "~/lib/tones";
-import { plateFromAscii, type FillMap } from "../wells";
+import { plateFromAscii, type FillMap, type WellId } from "../wells";
 
 export type MarketCode = "ET" | "KE" | "UG" | "RW" | "TZ";
 
@@ -23,13 +23,25 @@ export const EAST_AFRICA_ART = `
 
 export type MarketTones = Readonly<Record<MarketCode, Tone>>;
 
-/** Adjacent countries never share a tone. Green and sage are too close to sit side by side. */
-export const DEFAULT_MARKET_TONES: MarketTones = {
+/** One colour per country. Neighbours on the plate never share a tone. */
+export const PLATE_MARKET_TONES: MarketTones = {
   ET: "sage",
   KE: "orange",
   UG: "ink",
   RW: "cream",
   TZ: "green",
+};
+
+/**
+ * Empty wells beside each country that carry its code instead of an outline.
+ * The script that draws the Open Graph image reads this object too.
+ */
+export const MARKET_LABEL_WELLS: Readonly<Record<MarketCode, WellId>> = {
+  ET: "A9",
+  UG: "C2",
+  KE: "D9",
+  RW: "F1",
+  TZ: "G8",
 };
 
 const KEYS: Readonly<Record<string, MarketCode>> = {
@@ -41,10 +53,17 @@ const KEYS: Readonly<Record<string, MarketCode>> = {
 };
 
 export function eastAfricaFills(
-  tones: MarketTones = DEFAULT_MARKET_TONES,
+  tones: MarketTones = PLATE_MARKET_TONES,
 ): FillMap {
   const legend = Object.fromEntries(
     Object.entries(KEYS).map(([key, code]) => [key, tones[code]]),
   ) as Record<string, Tone>;
   return plateFromAscii(EAST_AFRICA_ART, legend);
+}
+
+/** Country codes keyed by the well they sit in, for WellPlate's `annotations`. */
+export function eastAfricaLabels(): Readonly<Partial<Record<WellId, string>>> {
+  return Object.fromEntries(
+    Object.entries(MARKET_LABEL_WELLS).map(([code, well]) => [well, code]),
+  );
 }

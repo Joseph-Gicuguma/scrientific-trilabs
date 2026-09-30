@@ -1,6 +1,11 @@
 import { render, screen } from "@testing-library/react";
 import { describe, expect, it, vi } from "vitest";
-import { eastAfricaFills, EAST_AFRICA_ART } from "./maps/east-africa";
+import {
+  eastAfricaFills,
+  eastAfricaLabels,
+  EAST_AFRICA_ART,
+  MARKET_LABEL_WELLS,
+} from "./maps/east-africa";
 import { WellPlate } from "./WellPlate";
 import { parseWellId, plateFromAscii, wellId } from "./wells";
 
@@ -83,6 +88,19 @@ describe("WellPlate", () => {
     expect(filledWells(container)[0]).not.toHaveAttribute("data-animate");
   });
 
+  it("draws annotations in place of empty wells", () => {
+    const { container } = render(
+      <WellPlate fills={{}} annotations={eastAfricaLabels()} />,
+    );
+    expect(
+      container.querySelectorAll('[data-part="empty"] circle'),
+    ).toHaveLength(96 - 5);
+    const text = [...container.querySelectorAll("[data-annotation]")].map(
+      (t) => t.textContent,
+    );
+    expect(text.sort()).toEqual(["ET", "KE", "RW", "TZ", "UG"]);
+  });
+
   it("renders plate labels when asked", () => {
     const { container } = render(<WellPlate fills={{}} labels />);
     const text = [...container.querySelectorAll("text")].map(
@@ -109,11 +127,19 @@ describe("well helpers", () => {
     expect(() => plateFromAscii("X", {})).toThrow(/legend/);
   });
 
-  it("fits the East Africa map on a 96-well plate with all five markets", () => {
+  it("fits the East Africa map on a 96-well plate, one colour per market", () => {
     const rows = EAST_AFRICA_ART.trim().split("\n");
     expect(rows).toHaveLength(8);
     expect(rows.every((r) => r.trim().length === 12)).toBe(true);
-    const tones = new Set(Object.values(eastAfricaFills()));
-    expect(tones.size).toBe(5);
+    expect(new Set(Object.values(eastAfricaFills())).size).toBe(5);
+  });
+
+  it("puts each country label in an empty well on the plate", () => {
+    const fills = eastAfricaFills();
+    for (const well of Object.values(MARKET_LABEL_WELLS)) {
+      expect(fills[well]).toBeUndefined();
+      const pos = parseWellId(well);
+      expect(pos && pos.row < 8 && pos.col < 12).toBe(true);
+    }
   });
 });

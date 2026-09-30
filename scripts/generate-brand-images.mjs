@@ -27,7 +27,24 @@ const art = /EAST_AFRICA_ART = `([\s\S]*?)`/
   .trim()
   .split("\n")
   .map((l) => l.trim());
-const toneFor = { E: C.sage, K: C.orange, U: C.ink, R: C.cream, T: C.green };
+const block = (name) =>
+  new RegExp(`${name}[^=]*=\\s*\\{([^}]*)\\}`).exec(mapSource)[1];
+const entries = (body) =>
+  Object.fromEntries(
+    [...body.matchAll(/([A-Z]{2}):\s*"([^"]+)"/g)].map((m) => [m[1], m[2]]),
+  );
+const tones = entries(block("PLATE_MARKET_TONES"));
+const labelWells = entries(block("MARKET_LABEL_WELLS"));
+const letterToCode = { E: "ET", K: "KE", U: "UG", R: "RW", T: "TZ" };
+const toneFor = Object.fromEntries(
+  Object.entries(letterToCode).map(([letter, code]) => [
+    letter,
+    C[tones[code]],
+  ]),
+);
+const labelAt = Object.fromEntries(
+  Object.entries(labelWells).map(([code, well]) => [well, code]),
+);
 
 // Inlined as data URIs: pages built with setContent cannot read file:// URLs.
 const font = (pkg, file) =>
@@ -42,6 +59,11 @@ function plate(pitch) {
     [...line].forEach((key, col) => {
       const cx = col * pitch + pitch / 2;
       const cy = row * pitch + pitch / 2;
+      const code = labelAt[`${"ABCDEFGH"[row]}${col + 1}`];
+      if (code) {
+        out += `<text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="central" font-family="Inter Tight" font-weight="700" font-size="${pitch * 0.4}" fill="${C.ink}">${code}</text>`;
+        return;
+      }
       const fill = key === "." ? "none" : toneFor[key];
       out += `<circle cx="${cx}" cy="${cy}" r="${r}" fill="${fill}" stroke="${C.ink}" stroke-width="${pitch * 0.05}"/>`;
     });

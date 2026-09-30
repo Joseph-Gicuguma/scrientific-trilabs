@@ -35,6 +35,8 @@ export interface WellPlateProps {
   delay?: number;
   /** Show row letters and column numbers, like a real plate. */
   labels?: boolean;
+  /** Short text (two or three letters) drawn in place of an empty well. */
+  annotations?: Readonly<Partial<Record<WellId, string>>>;
   /** Accessible description. Omit to mark the plate decorative. */
   label?: string;
   className?: string;
@@ -71,6 +73,7 @@ export function WellPlate({
   sequence = "row",
   delay = 0,
   labels = false,
+  annotations = {},
   label,
   className,
 }: WellPlateProps) {
@@ -148,6 +151,7 @@ export function WellPlate({
           {Array.from({ length: rows * cols }, (_, i) => {
             const row = Math.floor(i / cols);
             const col = i % cols;
+            if (annotations[wellId(row, col)]) return null;
             return (
               <circle
                 key={wellId(row, col)}
@@ -155,6 +159,36 @@ export function WellPlate({
                 cy={centre(row)}
                 r={RADIUS}
               />
+            );
+          })}
+        </g>
+      )}
+
+      {Object.keys(annotations).length > 0 && (
+        <g
+          aria-hidden="true"
+          data-part="annotations"
+          fill="currentColor"
+          fontFamily="var(--font-display)"
+          fontWeight={700}
+          fontSize={4}
+          letterSpacing={0.2}
+          textAnchor="middle"
+          dominantBaseline="central"
+        >
+          {Object.entries(annotations).map(([id, text]) => {
+            const pos = parseWellId(id);
+            if (!pos || !text || pos.row >= rows || pos.col >= cols)
+              return null;
+            return (
+              <text
+                key={id}
+                data-annotation={id}
+                x={centre(pos.col)}
+                y={centre(pos.row)}
+              >
+                {text}
+              </text>
             );
           })}
         </g>

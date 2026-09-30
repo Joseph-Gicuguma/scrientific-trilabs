@@ -3,6 +3,7 @@ import { ButtonLink, Eyebrow, Heading, SectionNumber } from "~/components/ui";
 import {
   DotDivider,
   eastAfricaFills,
+  eastAfricaLabels,
   LogoMark,
   WellPlate,
 } from "~/components/well-plate";
@@ -88,6 +89,7 @@ export default function Styleguide() {
           </Heading>
           <WellPlate
             fills={eastAfricaFills()}
+            annotations={eastAfricaLabels()}
             animate
             labels
             label="A 96-well plate with wells filled to outline Ethiopia, Kenya, Uganda, Rwanda and Tanzania"

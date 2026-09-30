@@ -1,6 +1,5 @@
 import { Section } from "~/components/layout";
 import { Heading } from "~/components/ui";
-import { DEFAULT_MARKET_TONES } from "~/components/well-plate";
 import { markets } from "~/content/markets";
 import { SectionHeader } from "../shared";
 
@@ -12,7 +11,7 @@ export function Markets() {
         {markets.items.map((market) => (
           <li
             key={market.code}
-            data-tone={DEFAULT_MARKET_TONES[market.code]}
+            data-tone={market.tone}
             className="flex min-h-72 flex-col justify-between gap-10 p-gutter py-10"
           >
             <Heading level={3} className="text-h2 tracking-display">

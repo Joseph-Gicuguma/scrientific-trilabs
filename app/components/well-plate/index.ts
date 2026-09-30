@@ -10,6 +10,8 @@ export {
 } from "./wells";
 export {
   eastAfricaFills,
-  DEFAULT_MARKET_TONES,
+  eastAfricaLabels,
+  MARKET_LABEL_WELLS,
+  PLATE_MARKET_TONES,
   type MarketCode,
 } from "./maps/east-africa";

@@ -1,10 +1,21 @@
 import { Block, Container, Grid, Section } from "~/components/layout";
 import { ButtonLink, Eyebrow, Heading } from "~/components/ui";
-import { eastAfricaFills, WellPlate } from "~/components/well-plate";
+import {
+  eastAfricaFills,
+  eastAfricaLabels,
+  PLATE_MARKET_TONES,
+  WellPlate,
+} from "~/components/well-plate";
 import { home } from "~/content/home";
+import { markets } from "~/content/markets";
 import { MarketLegend } from "../shared";
 
 const fills = eastAfricaFills();
+const annotations = eastAfricaLabels();
+const legend = markets.items.map((m) => ({
+  tone: PLATE_MARKET_TONES[m.code],
+  label: m.name,
+}));
 
 export function Hero() {
   const { hero } = home;
@@ -41,11 +52,12 @@ export function Hero() {
               animate
               delay={250}
               labels
+              annotations={annotations}
               label={hero.plateLabel}
               size="100%"
             />
             <figcaption className="mt-8">
-              <MarketLegend />
+              <MarketLegend items={legend} />
             </figcaption>
           </figure>
         </Block>
