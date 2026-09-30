@@ -7,6 +7,7 @@ export default defineConfig({
   resolve: {
     alias: { "~": path.resolve(import.meta.dirname, "app") },
   },
+  define: { __SITE_URL__: JSON.stringify("https://www.example.com") },
   test: {
     environment: "jsdom",
     setupFiles: ["./vitest.setup.ts"],

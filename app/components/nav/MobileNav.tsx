@@ -1,4 +1,3 @@
-import { AnimatePresence, motion } from "motion/react";
 import { useCallback, useEffect, useId, useRef, useState } from "react";
 import { NavLink, useLocation } from "react-router";
 import { nav, navCta, primaryNav } from "~/content/nav";
@@ -76,59 +75,54 @@ export function MobileNav() {
         {nav.menuOpen}
       </button>
 
-      <AnimatePresence>
-        {open && (
-          <motion.div
-            ref={panelRef}
-            id={panelId}
-            role="dialog"
-            aria-modal="true"
-            aria-label={nav.menuLabel}
-            data-tone="ink"
-            className="fixed inset-0 z-40 flex flex-col overflow-y-auto px-gutter pt-4 pb-10"
-            initial={{ opacity: 0, y: -12 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -12 }}
-            transition={{ duration: 0.2, ease: [0.2, 0.8, 0.2, 1] }}
-          >
-            <div className="flex justify-end">
-              <button
-                type="button"
-                onClick={close}
-                className="min-h-12 border-2 border-(--block-fg) px-4 font-display font-semibold"
-              >
-                {nav.menuClose}
-              </button>
-            </div>
-            <nav aria-label={nav.primaryLabel} className="mt-10">
-              <ul className="flex flex-col gap-2">
-                {[...primaryNav, navCta].map((link, i) => (
-                  <li key={`${link.to}-${i}`}>
-                    <NavLink
-                      to={link.to}
-                      onClick={() => {
-                        setOpen(false);
-                      }}
-                      className={({ isActive }) =>
-                        cn(
-                          "block py-2 font-display text-h2 tracking-display",
-                          isActive &&
-                            link !== navCta &&
-                            "underline decoration-4 underline-offset-8",
-                          link === navCta &&
-                            "mt-8 text-h3 tracking-tight text-orange",
-                        )
-                      }
-                    >
-                      {link.label}
-                    </NavLink>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {open && (
+        // Entry animation is CSS (.menu-panel), so no animation library ships on every page.
+        <div
+          ref={panelRef}
+          id={panelId}
+          role="dialog"
+          aria-modal="true"
+          aria-label={nav.menuLabel}
+          data-tone="ink"
+          className="menu-panel fixed inset-0 z-40 flex flex-col overflow-y-auto px-gutter pt-4 pb-10"
+        >
+          <div className="flex justify-end">
+            <button
+              type="button"
+              onClick={close}
+              className="min-h-12 border-2 border-(--block-fg) px-4 font-display font-semibold"
+            >
+              {nav.menuClose}
+            </button>
+          </div>
+          <nav aria-label={nav.primaryLabel} className="mt-10">
+            <ul className="flex flex-col gap-2">
+              {[...primaryNav, navCta].map((link, i) => (
+                <li key={`${link.to}-${i}`}>
+                  <NavLink
+                    to={link.to}
+                    onClick={() => {
+                      setOpen(false);
+                    }}
+                    className={({ isActive }) =>
+                      cn(
+                        "block py-2 font-display text-h2 tracking-display",
+                        isActive &&
+                          link !== navCta &&
+                          "underline decoration-4 underline-offset-8",
+                        link === navCta &&
+                          "mt-8 text-h3 tracking-tight text-orange",
+                      )
+                    }
+                  >
+                    {link.label}
+                  </NavLink>
+                </li>
+              ))}
+            </ul>
+          </nav>
+        </div>
+      )}
     </div>
   );
 }

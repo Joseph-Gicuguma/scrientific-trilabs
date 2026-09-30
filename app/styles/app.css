@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@import "./fonts.css";
 
 /*
  * Design tokens. `static` keeps every variable in the output so components
@@ -180,5 +181,22 @@
 @media (prefers-reduced-motion: reduce) {
   .well-fill[data-animate] {
     animation: none;
+  }
+}
+
+/* Mobile menu entry: CSS only, so no animation library loads on every page. */
+.menu-panel {
+  transition:
+    opacity 200ms var(--ease-pipette),
+    translate 200ms var(--ease-pipette);
+  @starting-style {
+    opacity: 0;
+    translate: 0 -12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-panel {
+    transition: none;
   }
 }

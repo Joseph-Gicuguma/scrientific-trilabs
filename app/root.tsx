@@ -1,9 +1,7 @@
-import "@fontsource-variable/inter-tight/wght.css";
-import "@fontsource-variable/bitter/wght.css";
-import "@fontsource-variable/doto/wght.css";
-import "./styles/app.css";
+// Inlined into <head> so first paint needs no extra request for CSS.
+import styles from "./styles/app.css?inline";
+import interTightLatin from "@fontsource-variable/inter-tight/files/inter-tight-latin-wght-normal.woff2?url";
 
-import { MotionConfig } from "motion/react";
 import type { ReactNode } from "react";
 import {
   isRouteErrorResponse,
@@ -17,6 +15,17 @@ import type { Route } from "./+types/root";
 import { Container } from "./components/layout";
 import { SiteFooter, SiteHeader } from "./components/nav";
 import { Heading, SkipLink } from "./components/ui";
+import { organizationSchema } from "./lib/schema";
+
+// Headlines render in this file; fetch it before the stylesheet asks for it.
+export const links: Route.LinksFunction = () =>
+  [interTightLatin].map((href) => ({
+    rel: "preload",
+    href,
+    as: "font",
+    type: "font/woff2",
+    crossOrigin: "anonymous",
+  }));
 
 export function Layout({ children }: { children: ReactNode }) {
   return (
@@ -26,24 +35,34 @@ export function Layout({ children }: { children: ReactNode }) {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <meta name="theme-color" content="#f5c8bc" />
         <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <style dangerouslySetInnerHTML={{ __html: styles }} />
         <Meta />
         <Links />
+        <script
+          type="application/ld+json"
+          // Static, build-time data; no user input reaches this.
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationSchema()).replace(
+              /</g,
+              "\\u003c",
+            ),
+          }}
+        />
       </head>
       <body>
-        {/* "user" disables transform animations when the visitor prefers reduced motion. */}
-        <MotionConfig reducedMotion="user">
-          <SkipLink />
-          <SiteHeader />
-          <main
-            id="main"
-            tabIndex={-1}
-            data-inert-with-menu=""
-            className="outline-none"
-          >
-            {children}
-          </main>
-          <SiteFooter />
-        </MotionConfig>
+        <SkipLink />
+        <SiteHeader />
+        <main
+          id="main"
+          tabIndex={-1}
+          data-inert-with-menu=""
+          className="outline-none"
+        >
+          {children}
+        </main>
+        <SiteFooter />
+
         <ScrollRestoration />
         <Scripts />
       </body>

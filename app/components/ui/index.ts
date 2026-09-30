@@ -4,3 +4,4 @@ export { Heading } from "./Heading";
 export { SectionNumber } from "./SectionNumber";
 export { SkipLink } from "./SkipLink";
 export { TodoMark } from "./TodoMark";
+export { Portrait, type PictureSource } from "./Portrait";

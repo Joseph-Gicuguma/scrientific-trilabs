@@ -16,7 +16,7 @@ export function SiteFooter() {
         <Grid>
           <div className="col-span-4 md:col-span-5">
             <LogoMark size={56} inverse />
-            <p className="mt-6 font-display text-h3 tracking-tight">
+            <p className="mt-6 font-display text-h3 font-bold tracking-tight">
               {site.legalName}
             </p>
             <p className="mt-2">
