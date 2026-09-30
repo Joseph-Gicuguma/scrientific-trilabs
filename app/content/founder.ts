@@ -1,5 +1,6 @@
+import portrait from "~/assets/grace-portrait.jpg?w=400;700;900&format=avif;webp;jpg&as=picture";
 import type { PictureSource } from "~/components/ui/Portrait";
-import { todo, type Pending } from "./types";
+import type { Pending } from "./types";
 
 export interface Role {
   readonly organisation: string;
@@ -49,12 +50,7 @@ export const founder = {
       institution: "Technical University of Kenya",
     },
   ] satisfies readonly Qualification[],
-  /*
-   * Replace with an imagetools import once the photo exists, e.g.
-   * import portrait from "~/assets/grace.jpg?w=480;800;1200&format=avif;webp;jpg&as=picture";
-   */
-  portrait: todo(
-    "Black-and-white portrait of Grace, at least 1200px wide, in app/assets/",
-  ) as PictureSource | Pending,
-  portraitAlt: "Grace Wanjũgũ Kamau, founder of Tri-Lab Scientific",
+  /** Black-and-white, 4:5, served as AVIF and WebP at 400, 700 and 900px wide. */
+  portrait: portrait as PictureSource | Pending,
+  portraitAlt: "Grace Wanjũgũ Kamau, smiling, in graduation robes",
 } as const;

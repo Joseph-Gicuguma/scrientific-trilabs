@@ -12,3 +12,12 @@ interface ImportMetaEnv {
 interface ImportMeta {
   readonly env: ImportMetaEnv;
 }
+
+/** vite-imagetools `as=picture` imports, used for responsive AVIF/WebP images. */
+declare module "*&as=picture" {
+  const picture: {
+    sources: Record<string, string>;
+    img: { src: string; w: number; h: number };
+  };
+  export default picture;
+}

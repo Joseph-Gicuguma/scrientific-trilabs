@@ -84,14 +84,11 @@ tests/e2e/      Playwright smoke and accessibility tests
 
   Frontmatter is validated with zod, and a bad field fails the build. `<Todo>…</Todo>` is available inside MDX for editorial notes.
 
-- **Portrait**: put a black-and-white photo in `app/assets/` and replace `founder.portrait` in `app/content/founder.ts` with an imagetools import, for example:
-  `import portrait from "~/assets/grace.jpg?w=480;800;1200&format=avif;webp;jpg&as=picture";`
-  The component outputs AVIF and WebP with explicit sizes.
+- **Portrait**: `app/assets/grace-portrait.jpg` is a 900x1125 (4:5) black-and-white crop with metadata removed. To change it, replace the file with the same ratio. The build outputs AVIF and WebP at 400, 700 and 900px (see the import in `app/content/founder.ts`).
 
 ### Open TODOs before launch
 
 - Contact email and LinkedIn URL (`app/content/site.ts`)
-- Founder portrait (`app/content/founder.ts`)
 - Calendly link (`VITE_CALENDLY_URL`)
 - Formspree endpoint (`VITE_FORMSPREE_ENDPOINT`)
 - Production domain (`VITE_SITE_URL`)
