@@ -5,10 +5,10 @@ import { photos } from "~/content/photos";
 
 /*
  * Full-bleed photograph with an ink panel cut on a diagonal, edged in orange.
- * On small screens the photo sits above the panel instead of behind it.
+ * Below 1024px the photo sits above the panel instead of behind it.
  */
-const panelClip = "md:[clip-path:polygon(0_0,100%_0,82%_100%,0_100%)]";
-const edgeClip = "md:[clip-path:polygon(0_0,100%_0,84%_100%,0_100%)]";
+const panelClip = "lg:[clip-path:polygon(0_0,100%_0,82%_100%,0_100%)]";
+const edgeClip = "lg:[clip-path:polygon(0_0,100%_0,84%_100%,0_100%)]";
 
 export function Hero() {
   const { hero } = home;
@@ -16,27 +16,27 @@ export function Hero() {
   return (
     <section
       aria-labelledby="hero-heading"
-      className="relative isolate flex flex-col md:min-h-[min(88vh,52rem)] md:flex-row"
+      className="relative isolate flex flex-col lg:min-h-[min(88vh,52rem)] lg:flex-row"
     >
       <Photo
         picture={photo.picture}
         alt=""
         priority
         sizes="100vw"
-        className="aspect-[4/3] md:absolute md:inset-0 md:-z-10 md:aspect-auto"
+        className="aspect-[4/3] md:aspect-[16/9] lg:absolute lg:inset-0 lg:-z-10 lg:aspect-auto"
         imgClassName="object-[80%_center]"
       />
 
       <div
         aria-hidden="true"
         data-tone="orange"
-        className={`absolute inset-y-0 left-0 -z-10 hidden w-[62%] md:block ${edgeClip}`}
+        className={`absolute inset-y-0 left-0 -z-10 hidden w-[62%] lg:block ${edgeClip}`}
       />
       <div
         data-tone="ink"
-        className={`flex flex-col justify-center md:w-[60%] ${panelClip}`}
+        className={`flex flex-col justify-center lg:w-[60%] ${panelClip}`}
       >
-        <Container className="py-14 md:mx-0 md:py-20 md:pr-[22%]">
+        <Container className="py-14 lg:mx-0 lg:py-20 lg:pr-[22%]">
           <Eyebrow className="text-orange">{hero.eyebrow}</Eyebrow>
           <Heading
             level={1}

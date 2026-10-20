@@ -23,8 +23,8 @@ export function PackageSection({ pkg, number }: PackageSectionProps) {
   return (
     <Section id={pkg.slug} labelledBy={headingId} className="scroll-mt-4">
       <Grid gap="none">
-        {/* Stays in view on wide screens while the detail scrolls past. */}
-        <div className="col-span-4 self-start md:sticky md:top-0 md:col-span-5">
+        {/* From 1024px, stays in view while the detail scrolls past. */}
+        <div className="col-span-4 self-start md:col-span-12 lg:sticky lg:top-0 lg:col-span-5">
           <Block
             tone={pkg.tone}
             className="flex flex-col gap-10 [clip-path:polygon(0_0,calc(100%-3rem)_0,100%_3rem,100%_100%,0_100%)]"
@@ -55,15 +55,15 @@ export function PackageSection({ pkg, number }: PackageSectionProps) {
           <Photo
             picture={photo.picture}
             alt=""
-            sizes="(min-width: 48rem) 42vw, 100vw"
-            className="aspect-[16/10]"
+            sizes="(min-width: 64rem) 42vw, 100vw"
+            className="aspect-[16/10] md:aspect-[21/9] lg:aspect-[16/10]"
           />
         </div>
 
         <Block
           tone={pkg.tone === "paper" ? "cream" : "paper"}
           pad="large"
-          className="col-span-4 md:col-span-7"
+          className="col-span-4 md:col-span-12 lg:col-span-7"
         >
           <p className="max-w-prose text-lead">{pkg.summary}</p>
           <p className="mt-5 max-w-prose">{pkg.detail}</p>
