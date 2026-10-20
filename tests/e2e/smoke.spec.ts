@@ -29,7 +29,14 @@ for (const route of ROUTES) {
     await expect(page.locator('meta[property="og:image"]')).toHaveCount(1);
 
     const results = await new AxeBuilder({ page })
-      .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"])
+      .withTags([
+        "wcag2a",
+        "wcag2aa",
+        "wcag21a",
+        "wcag21aa",
+        "wcag22aa",
+        "best-practice",
+      ])
       .analyze();
     expect(
       results.violations,
@@ -123,6 +130,51 @@ test.describe("reduced motion", () => {
     expect(animation).toBe("none");
   });
 });
+
+for (const route of ROUTES) {
+  test(`${route} reflows at 320px with no sideways scroll`, async ({
+    browser,
+  }) => {
+    const page = await browser.newPage({
+      viewport: { width: 320, height: 640 },
+    });
+    await page.goto(route);
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - window.innerWidth,
+    );
+    expect(overflow).toBeLessThanOrEqual(0);
+    await page.close();
+  });
+
+  test(`${route}: every keyboard stop shows a focus ring`, async ({
+    page,
+    isMobile,
+  }) => {
+    test.skip(isMobile, "Keyboard focus is a desktop check");
+    await page.goto(route);
+    const seen = new Set<string>();
+    for (let i = 0; i < 80; i++) {
+      await page.keyboard.press("Tab");
+      const stop = await page.evaluate(() => {
+        const el = document.activeElement as HTMLElement | null;
+        if (!el || el === document.body) return null;
+        el.dataset.stop ??= String(Math.random());
+        const style = getComputedStyle(el);
+        return {
+          id: el.dataset.stop,
+          name: (el.getAttribute("aria-label") ?? el.innerText).trim(),
+          ring:
+            style.outlineStyle !== "none" &&
+            parseFloat(style.outlineWidth) >= 2,
+        };
+      });
+      if (!stop || seen.has(stop.id)) break;
+      seen.add(stop.id);
+      expect(stop.ring, `no focus ring on "${stop.name}"`).toBe(true);
+    }
+    expect(seen.size).toBeGreaterThan(5);
+  });
+}
 
 test("sitemap and robots are served", async ({ request }) => {
   const sitemap = await request.get("/sitemap.xml");

@@ -4,32 +4,20 @@ export const about = {
   seo: {
     title: "About",
     description:
-      "Tri-Lab Scientific is led by Grace Wanjũgũ Kamau: nine years in sales and applications at Bruker and Hain Lifescience and consulting for Revvity, with an MPH in Epidemiology.",
+      "Tri-Lab Scientific is a Nairobi-based advisory firm helping international IVD and life-science companies assess, enter and grow in East African markets, led by Grace Wanjũgũ Kamau.",
   } satisfies PageSeo,
   eyebrow: "About",
-  heading: "Built by someone who has done the work.",
-  lead: "Tri-Lab Scientific is a Nairobi consultancy for international IVD and life-science companies entering East Africa.",
+  heading: "Built on experience. Focused on East Africa.",
+  lead: "Tri-Lab Scientific is a Nairobi-based advisory firm helping international IVD and life-science companies assess, enter and grow in East African markets.",
+  consultantHeading: "Meet the Lead Consultant",
   story: [
-    "Grace Wanjũgũ Kamau spent nine years selling, installing and supporting diagnostics across Sub-Saharan Africa, first with Hain Lifescience, then with Bruker, then as a consultant to Revvity.",
-    "That work covered the whole chain: regulators, reference labs, distributors, tenders and the scientists who use the products every day.",
-    "Tri-Lab Scientific puts that experience to work for companies with strong products that belong in East African labs.",
+    "Grace brings 9+ years of experience across the IVD and life-science sector in Sub-Saharan Africa, spanning commercial strategy, diagnostics, applications support, market access and market development.",
+    "Her industry experience includes work with Hain Lifescience, Bruker and Revvity, supporting international diagnostics businesses across diverse African healthcare markets.",
+    "This experience has provided first-hand insight into the realities of market access and commercialisation, from regulatory pathways and laboratory networks to distributors, procurement, tenders, healthcare institutions and key decision-makers.",
+    "At Tri-Lab, that experience is brought together with local market knowledge to help international companies make informed decisions, build the right partnerships and turn market opportunity into sustainable commercial growth.",
   ],
-  careerHeading: "Career",
-  educationHeading: "Education",
-  valuesHeading: "How Grace works",
-  values: [
-    {
-      title: "Plain answers",
-      body: "If a market is wrong for your product, you will hear it early.",
-    },
-    {
-      title: "Written down",
-      body: "Weekly updates and a final report, so nothing lives only in someone's head.",
-    },
-    {
-      title: "On the ground",
-      body: "Based in Nairobi, working in the markets we advise on.",
-    },
-  ],
+  closing: "Industry experience. Local insight. Practical execution.",
+  companiesLabel: "Industry experience with",
+  linkedinLabel: "Grace on LinkedIn",
   cta: { label: "Book a discovery call", to: "/contact" },
 } as const;

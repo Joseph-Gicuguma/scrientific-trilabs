@@ -1,48 +1,65 @@
-import { Container, Section } from "~/components/layout";
-import { ButtonLink, Eyebrow, Heading, SectionNumber } from "~/components/ui";
+import { Container, Grid, Section } from "~/components/layout";
+import {
+  ButtonLink,
+  Eyebrow,
+  Heading,
+  Photo,
+  SectionNumber,
+} from "~/components/ui";
+import { photos } from "~/content/photos";
 import { processStages } from "~/content/process";
 
 export function Process() {
   const { intro, steps, cta } = processStages;
+  const photo = photos.paperwork;
   return (
-    <Section tone="ink" labelledBy="process-heading" className="py-section">
-      <Container>
-        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <SectionNumber value={3} size="h2" />
-            {intro.eyebrow && (
-              <Eyebrow className="mt-8">{intro.eyebrow}</Eyebrow>
-            )}
-            <Heading
-              level={2}
-              id="process-heading"
-              className="mt-4 max-w-[16ch]"
-            >
-              {intro.heading}
-            </Heading>
-          </div>
-          {intro.body && <p className="max-w-[34ch] text-lead">{intro.body}</p>}
+    <Section tone="ink" labelledBy="process-heading">
+      <Grid gap="none">
+        <div className="relative col-span-4 min-h-80 md:col-span-5">
+          <Photo
+            picture={photo.picture}
+            alt=""
+            sizes="(min-width: 48rem) 42vw, 100vw"
+            className="absolute inset-0"
+          />
         </div>
 
-        <ol className="mt-16 grid grid-cols-1 border-t-2 border-(--block-fg) sm:grid-cols-2 lg:grid-cols-5">
-          {steps.map((step, i) => (
-            <li
-              key={step.title}
-              className="border-b-2 border-(--block-fg) py-8 sm:pr-6 lg:border-r-2 lg:border-b-0 lg:px-6 lg:first:pl-0 lg:last:border-r-0"
-            >
-              <SectionNumber value={i + 1} size="h2" className="text-orange" />
-              <Heading level={3} className="mt-6">
-                {step.title}
-              </Heading>
-              <p className="mt-3">{step.body}</p>
-            </li>
-          ))}
-        </ol>
+        <Container className="col-span-4 py-section md:col-span-7 md:mx-0">
+          <SectionNumber value={3} size="h2" />
+          {intro.eyebrow && <Eyebrow className="mt-8">{intro.eyebrow}</Eyebrow>}
+          <Heading level={2} id="process-heading" className="mt-4 max-w-[14ch]">
+            {intro.heading}
+          </Heading>
+          {intro.body && (
+            <p className="mt-6 max-w-[40ch] text-lead">{intro.body}</p>
+          )}
 
-        <ButtonLink to={cta.to} variant="secondary" arrow className="mt-14">
-          {cta.label}
-        </ButtonLink>
-      </Container>
+          <ol className="mt-12 border-t-2 border-(--block-fg)/20">
+            {steps.map((step, i) => (
+              <li
+                key={step.title}
+                className="grid grid-cols-[4rem_1fr] items-baseline gap-x-4 border-b-2 border-(--block-fg)/20 py-5 sm:grid-cols-[5rem_14rem_1fr]"
+              >
+                <SectionNumber
+                  value={i + 1}
+                  size="h3"
+                  className="text-orange"
+                />
+                <h3 className="font-display text-lead font-bold">
+                  {step.title}
+                </h3>
+                <p className="col-start-2 mt-1 sm:col-start-3 sm:mt-0">
+                  {step.body}
+                </p>
+              </li>
+            ))}
+          </ol>
+
+          <ButtonLink to={cta.to} variant="secondary" arrow className="mt-12">
+            {cta.label}
+          </ButtonLink>
+        </Container>
+      </Grid>
     </Section>
   );
 }

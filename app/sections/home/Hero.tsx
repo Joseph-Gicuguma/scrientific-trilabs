@@ -1,41 +1,55 @@
-import { Block, Container, Grid, Section } from "~/components/layout";
-import { ButtonLink, Eyebrow, Heading } from "~/components/ui";
-import {
-  eastAfricaFills,
-  eastAfricaLabels,
-  PLATE_MARKET_TONES,
-  WellPlate,
-} from "~/components/well-plate";
+import { Container } from "~/components/layout";
+import { ButtonLink, Eyebrow, Heading, Photo } from "~/components/ui";
 import { home } from "~/content/home";
-import { markets } from "~/content/markets";
-import { MarketLegend } from "../shared";
+import { photos } from "~/content/photos";
 
-const fills = eastAfricaFills();
-const annotations = eastAfricaLabels();
-const legend = markets.items.map((m) => ({
-  tone: PLATE_MARKET_TONES[m.code],
-  label: m.name,
-}));
+/*
+ * Full-bleed photograph with an ink panel cut on a diagonal, edged in orange.
+ * On small screens the photo sits above the panel instead of behind it.
+ */
+const panelClip = "md:[clip-path:polygon(0_0,100%_0,82%_100%,0_100%)]";
+const edgeClip = "md:[clip-path:polygon(0_0,100%_0,84%_100%,0_100%)]";
 
 export function Hero() {
   const { hero } = home;
+  const photo = photos.labTeam;
   return (
-    <Section labelledBy="hero-heading">
-      <Container className="pt-10 pb-12 md:pt-16 md:pb-20">
-        <Eyebrow>{hero.eyebrow}</Eyebrow>
-        <Heading level={1} id="hero-heading" className="mt-6 max-w-[15ch]">
-          {hero.heading}
-        </Heading>
-      </Container>
+    <section
+      aria-labelledby="hero-heading"
+      className="relative isolate flex flex-col md:min-h-[min(88vh,52rem)] md:flex-row"
+    >
+      <Photo
+        picture={photo.picture}
+        alt=""
+        priority
+        sizes="100vw"
+        className="aspect-[4/3] md:absolute md:inset-0 md:-z-10 md:aspect-auto"
+        imgClassName="object-[80%_center]"
+      />
 
-      <Grid gap="none">
-        <Block
-          tone="orange"
-          pad="large"
-          className="col-span-4 flex flex-col justify-between gap-12 md:col-span-5"
-        >
-          <p className="max-w-[32ch] text-lead">{hero.body}</p>
-          <div className="flex flex-wrap gap-4">
+      <div
+        aria-hidden="true"
+        data-tone="orange"
+        className={`absolute inset-y-0 left-0 -z-10 hidden w-[62%] md:block ${edgeClip}`}
+      />
+      <div
+        data-tone="ink"
+        className={`flex flex-col justify-center md:w-[60%] ${panelClip}`}
+      >
+        <Container className="py-14 md:mx-0 md:py-20 md:pr-[22%]">
+          <Eyebrow className="text-orange">{hero.eyebrow}</Eyebrow>
+          <Heading
+            level={1}
+            id="hero-heading"
+            className="mt-6 text-[clamp(2.75rem,1.4rem+4.2vw,5.75rem)] leading-[0.95]"
+          >
+            {hero.heading}
+          </Heading>
+          <p className="mt-8 font-display text-h3 font-bold tracking-tight">
+            {hero.tagline}
+          </p>
+          <p className="mt-4 max-w-[38ch] text-lead">{hero.body}</p>
+          <div className="mt-10 flex flex-wrap gap-4">
             <ButtonLink to={hero.primaryCta.to} arrow>
               {hero.primaryCta.label}
             </ButtonLink>
@@ -43,25 +57,8 @@ export function Hero() {
               {hero.secondaryCta.label}
             </ButtonLink>
           </div>
-        </Block>
-
-        <Block tone="paper" pad="large" className="col-span-4 md:col-span-7">
-          <figure>
-            <WellPlate
-              fills={fills}
-              animate
-              delay={250}
-              labels
-              annotations={annotations}
-              label={hero.plateLabel}
-              size="100%"
-            />
-            <figcaption className="mt-8">
-              <MarketLegend items={legend} />
-            </figcaption>
-          </figure>
-        </Block>
-      </Grid>
-    </Section>
+        </Container>
+      </div>
+    </section>
   );
 }

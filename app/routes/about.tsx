@@ -1,10 +1,10 @@
 import { Block, Container, Grid, Section } from "~/components/layout";
-import { ButtonLink, Eyebrow, Heading, Portrait } from "~/components/ui";
+import { ButtonLink, Eyebrow, Heading, Photo, Portrait } from "~/components/ui";
 import { about } from "~/content/about";
 import { founder } from "~/content/founder";
+import { photos } from "~/content/photos";
 import { site } from "~/content/site";
 import { absoluteUrl, jsonLd, pageMeta } from "~/lib/seo";
-import type { Tone } from "~/lib/tones";
 
 export function meta() {
   return [
@@ -15,132 +15,99 @@ export function meta() {
       name: founder.name,
       jobTitle: founder.role,
       worksFor: { "@id": absoluteUrl("/#organization"), name: site.legalName },
-      alumniOf: founder.education.map((e) => ({
-        "@type": "CollegeOrUniversity",
-        name: e.institution,
-      })),
+      sameAs: [founder.linkedin],
     }),
   ];
 }
 
-const valueTones: readonly Tone[] = ["green", "cream", "orange"];
-
 export default function About() {
+  const photo = photos.nairobiSkyline;
   return (
     <>
       <Section labelledBy="about-heading">
-        <Grid gap="none">
-          <Block
-            tone="paper"
-            pad="large"
-            className="order-2 col-span-4 md:order-1 md:col-span-5"
+        <Container className="pt-12 pb-16 md:pt-20 md:pb-24">
+          <Eyebrow>{about.eyebrow}</Eyebrow>
+          <Heading
+            level={1}
+            id="about-heading"
+            className="mt-6 max-w-[14ch] text-h2 md:text-h1"
           >
+            {about.heading}
+          </Heading>
+          <p className="mt-10 max-w-prose text-lead">{about.lead}</p>
+        </Container>
+        <Photo
+          picture={photo.picture}
+          alt={photo.alt}
+          priority
+          sizes="100vw"
+          className="aspect-[16/9] md:aspect-[21/8]"
+        />
+      </Section>
+
+      <Section labelledBy="consultant-heading">
+        <Grid gap="none">
+          <Block tone="sage" pad="large" className="col-span-4 md:col-span-5">
             <Portrait
               picture={founder.portrait}
               alt={founder.portraitAlt}
-              priority
+              sizes="(min-width: 48rem) 36vw, 100vw"
             />
             <p className="mt-6 font-display text-h3 font-bold tracking-tight">
               {founder.name}
             </p>
             <p>
-              {founder.role}, {site.legalName}
+              {founder.role}, {site.name}
             </p>
-          </Block>
-          <Block
-            pad="large"
-            className="order-1 col-span-4 md:order-2 md:col-span-7"
-          >
-            <Eyebrow>{about.eyebrow}</Eyebrow>
-            <Heading
-              level={1}
-              id="about-heading"
-              className="mt-6 max-w-[14ch] text-h2 md:text-h1"
+            <a
+              href={founder.linkedin}
+              rel="me noopener"
+              target="_blank"
+              className="mt-4 inline-block font-display font-semibold underline underline-offset-4 hover:no-underline"
             >
-              {about.heading}
+              {about.linkedinLabel}
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
+          </Block>
+          <Block tone="paper" pad="large" className="col-span-4 md:col-span-7">
+            <Heading level={2} id="consultant-heading" className="max-w-[14ch]">
+              {about.consultantHeading}
             </Heading>
-            <p className="mt-10 max-w-prose text-lead">{about.lead}</p>
-            <div className="mt-8 flex max-w-prose flex-col gap-5">
-              {about.story.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
+            <div className="mt-10 flex max-w-prose flex-col gap-5">
+              {about.story.map((paragraph, i) => (
+                <p key={paragraph} className={i === 0 ? "text-lead" : ""}>
+                  {paragraph}
+                </p>
               ))}
             </div>
+
+            <p className="mt-12 font-display text-small font-semibold tracking-label uppercase">
+              {about.companiesLabel}
+            </p>
+            <ul className="mt-3 flex flex-wrap gap-x-8 gap-y-2 border-t-2 border-ink pt-4">
+              {founder.companies.map((company) => (
+                <li
+                  key={company}
+                  className="font-display text-h3 font-bold tracking-tight"
+                >
+                  {company}
+                </li>
+              ))}
+            </ul>
           </Block>
         </Grid>
       </Section>
 
-      <Section tone="ink" labelledBy="career-heading" className="py-section">
-        <Container>
-          <Grid>
-            <div className="col-span-4 md:col-span-7">
-              <Heading level={2} id="career-heading">
-                {about.careerHeading}
-              </Heading>
-              <ol className="mt-10 border-t-2 border-(--block-fg)">
-                {founder.roles.map((role) => (
-                  <li
-                    key={role.organisation}
-                    className="grid gap-2 border-b-2 border-(--block-fg) py-6 sm:grid-cols-[10rem_1fr]"
-                  >
-                    <p className="font-dot text-h3 font-bold">{role.period}</p>
-                    <div>
-                      <Heading level={3}>{role.organisation}</Heading>
-                      <p className="mt-1 font-display font-semibold">
-                        {role.title}
-                      </p>
-                      <p className="mt-2">{role.detail}</p>
-                    </div>
-                  </li>
-                ))}
-              </ol>
-            </div>
-            <div className="col-span-4 md:col-span-4 md:col-start-9">
-              <Heading level={2} id="education-heading">
-                {about.educationHeading}
-              </Heading>
-              <ul className="mt-10 border-t-2 border-(--block-fg)">
-                {founder.education.map((q) => (
-                  <li
-                    key={q.award}
-                    className="border-b-2 border-(--block-fg) py-6"
-                  >
-                    <Heading level={3}>{q.award}</Heading>
-                    <p className="mt-2">{q.institution}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          </Grid>
+      <div data-tone="ink">
+        <Container className="flex flex-col gap-10 py-16 md:flex-row md:items-end md:justify-between md:py-24">
+          <p className="max-w-[18ch] font-display text-h2 font-bold tracking-display">
+            {about.closing}
+          </p>
+          <ButtonLink to={about.cta.to} arrow className="shrink-0">
+            {about.cta.label}
+          </ButtonLink>
         </Container>
-      </Section>
-
-      <Section labelledBy="values-heading">
-        <Container className="py-16 md:py-24">
-          <Heading level={2} id="values-heading">
-            {about.valuesHeading}
-          </Heading>
-        </Container>
-        <Grid gap="none" as="ul">
-          {about.values.map((value, i) => (
-            <Block
-              key={value.title}
-              as="li"
-              tone={valueTones[i] ?? "paper"}
-              pad="large"
-              className="col-span-4"
-            >
-              <Heading level={3}>{value.title}</Heading>
-              <p className="mt-4 max-w-[30ch] text-lead">{value.body}</p>
-            </Block>
-          ))}
-        </Grid>
-      </Section>
-
-      <Container className="py-16">
-        <ButtonLink to={about.cta.to} arrow>
-          {about.cta.label}
-        </ButtonLink>
-      </Container>
+      </div>
     </>
   );
 }

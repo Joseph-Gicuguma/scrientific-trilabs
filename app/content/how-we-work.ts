@@ -4,76 +4,45 @@ export const howWeWork = {
   seo: {
     title: "How we work",
     description:
-      "From discovery call to final report: how a Tri-Lab Scientific engagement runs, plus the Kenyan regulatory detail we handle, from CSDT dossiers to KEMSA tenders.",
+      "How a Tri-Lab Scientific engagement runs: discovery, scope and alignment, strategy and execution, progress and communication, then recommendations and next steps.",
   } satisfies PageSeo,
 
   intro: {
     eyebrow: "How we work",
-    heading: "Clear steps. No surprises.",
-    body: "Every engagement follows the same rhythm, so you always know what happens next and when.",
+    heading: "Clarity at every step.",
+    body: "A practical, collaborative approach tailored to your market, portfolio and objectives, from understanding the opportunity to building the right strategy and moving towards execution.",
   } satisfies SectionIntro,
 
   stepsHeading: "Engagement steps",
   steps: [
     {
-      title: "Discovery call",
-      body: "We learn about your product, your target markets and your timelines. You learn how we work.",
+      title: "Discovery",
+      body: "We start by understanding your portfolio, target market, objectives and the challenge you are trying to solve. We then determine where Tri-Lab can add value and what the engagement should cover.",
     },
     {
-      title: "NDA",
-      body: "We sign a mutual non-disclosure agreement before you share technical files or commercial plans.",
+      title: "Scope & Alignment",
+      body: "Where appropriate, we put confidentiality arrangements in place before reviewing sensitive technical or commercial information. We then agree the scope, deliverables, responsibilities and approach.",
     },
     {
-      title: "Proposal in 3 working days",
-      body: "A written proposal with scope, deliverables, timeline and fees. No surprises later.",
+      title: "Strategy & Execution",
+      body: "We bring together market intelligence, local expertise and commercial insight to address the agreed objectives. Depending on the engagement, this may include market assessment, regulatory strategy, route-to-market development, partner engagement or commercial execution.",
     },
     {
-      title: "Kickoff",
-      body: "We agree contacts, documents, milestones and how you want to hear from us.",
+      title: "Progress & Communication",
+      body: "You stay informed throughout the engagement. We provide agreed updates, highlight key findings and developments, surface risks or decisions that require your input, and keep the work moving towards the agreed objectives.",
     },
     {
-      title: "Weekly updates",
-      body: "A short written update every week: what moved, what is blocked, what we need from you.",
-    },
-    {
-      title: "Final report",
-      body: "A clear record of findings, decisions and next steps that your team can use after we finish.",
+      title: "Recommendations & Next Steps",
+      body: "We conclude with clear findings, recommendations and practical next steps that your team can use to make decisions and move forward.",
     },
   ] satisfies readonly Step[],
 
-  regulatory: {
-    intro: {
-      eyebrow: "Regulatory detail",
-      heading: "What getting an IVD to market in Kenya involves.",
-      body: "Kenya is our home market and often the first registration. These are the pieces we handle for you.",
-    } satisfies SectionIntro,
-    items: [
-      {
-        title: "CSDT dossier",
-        body: "Kenya's Pharmacy and Poisons Board uses the Common Submission Dossier Template. We check your technical file against it, close the gaps and prepare the dossier.",
-      },
-      {
-        title: "PPB PRIMS portal",
-        body: "Applications go through PRIMS, the Board's online system. We prepare the submission, track it and handle correspondence.",
-      },
-      {
-        title: "In-country performance testing",
-        body: "Some IVDs need evaluation in a Kenyan laboratory before approval. We coordinate samples, timelines and results.",
-      },
-      {
-        title: "KEBS",
-        body: "Kenya Bureau of Standards requirements can apply when your product is imported. We check what applies before anything ships.",
-      },
-      {
-        title: "KEMSA and county tenders",
-        body: "KEMSA buys for national programmes, and county governments run their own tenders. We track both and get you ready to bid.",
-      },
-    ] satisfies readonly Step[],
-  },
+  closing:
+    "A clear process. Tailored to your market. Focused on what comes next.",
 
   cta: {
     heading: "Start with a discovery call.",
-    body: "Tell us what you sell and where. We will tell you honestly whether and how we can help.",
+    body: "Tell us what you offer, where you want to grow, and what you are trying to achieve. We'll give you an honest view of where we can add value, and what the right next step looks like.",
     action: { label: "Book a discovery call", to: "/contact" },
   },
 } as const;

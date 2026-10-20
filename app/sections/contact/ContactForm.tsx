@@ -108,6 +108,7 @@ export function ContactForm({
       <Heading level={2} size="h3" id="contact-form-heading">
         {form.heading}
       </Heading>
+      <p className="-mt-2">{form.requiredNote}</p>
 
       <div ref={statusRef} tabIndex={-1} role="alert" className="outline-none">
         {errorMessage && (
@@ -124,6 +125,7 @@ export function ContactForm({
               id="name"
               type="text"
               autoComplete={fields.name.autoComplete}
+              aria-required="true"
               aria-invalid={errors.name ? true : undefined}
               aria-describedby={describedBy}
               className={controlClass}
@@ -141,6 +143,7 @@ export function ContactForm({
               id="company"
               type="text"
               autoComplete={fields.company.autoComplete}
+              aria-required="true"
               aria-invalid={errors.company ? true : undefined}
               aria-describedby={describedBy}
               className={controlClass}
@@ -159,6 +162,7 @@ export function ContactForm({
               type="email"
               inputMode="email"
               autoComplete={fields.email.autoComplete}
+              aria-required="true"
               aria-invalid={errors.email ? true : undefined}
               aria-describedby={describedBy}
               className={controlClass}
@@ -176,6 +180,7 @@ export function ContactForm({
               id="country"
               type="text"
               autoComplete={fields.country.autoComplete}
+              aria-required="true"
               aria-invalid={errors.country ? true : undefined}
               aria-describedby={describedBy}
               className={controlClass}
@@ -193,6 +198,7 @@ export function ContactForm({
         {(describedBy) => (
           <select
             id="productType"
+            aria-required="true"
             aria-invalid={errors.productType ? true : undefined}
             aria-describedby={describedBy}
             className={controlClass}
@@ -220,6 +226,7 @@ export function ContactForm({
           <textarea
             id="message"
             rows={6}
+            aria-required="true"
             aria-invalid={errors.message ? true : undefined}
             aria-describedby={describedBy}
             className={controlClass}

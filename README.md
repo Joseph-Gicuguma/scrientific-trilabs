@@ -32,7 +32,7 @@ A development-only styleguide showing tones, type, buttons and the `WellPlate` c
 | ------------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
 | `VITE_SITE_URL`           | Production        | Canonical origin, no trailing slash, e.g. `https://www.trilabscientific.com`. Used for canonical URLs, Open Graph, JSON-LD, `sitemap.xml` and `robots.txt`. If unset on Vercel, the project's production domain is used. |
 | `VITE_FORMSPREE_ENDPOINT` | Yes, for the form | Formspree form endpoint, e.g. `https://formspree.io/f/abcdwxyz`. Without it the form shows a "not connected" message instead of failing silently.                                                                        |
-| `VITE_CALENDLY_URL`       | No                | Calendly scheduling link. The embed loads only when a visitor asks for it. Without it the contact page shows a TODO marker.                                                                                              |
+| `VITE_CALENDLY_URL`       | No                | Overrides the Calendly link in `app/content/site.ts`. The embed loads only when a visitor asks for it.                                                                                                                   |
 
 All three are read at build time, so rebuild after changing them.
 
@@ -88,8 +88,6 @@ tests/e2e/      Playwright smoke and accessibility tests
 
 ### Open TODOs before launch
 
-- Contact email and LinkedIn URL (`app/content/site.ts`)
-- Calendly link (`VITE_CALENDLY_URL`)
 - Formspree endpoint (`VITE_FORMSPREE_ENDPOINT`)
 - Production domain (`VITE_SITE_URL`)
 - Review of the placeholder article, which contains three `<Todo>` notes for facts to confirm
@@ -104,7 +102,7 @@ tests/e2e/      Playwright smoke and accessibility tests
 ## Deploying to Vercel
 
 1. Import the GitHub repository in Vercel. `vercel.json` sets the build command, the output directory (`build/client`), clean URLs, security headers and long-term caching for hashed assets.
-2. In Project Settings > Environment Variables, add `VITE_SITE_URL`, `VITE_FORMSPREE_ENDPOINT` and, if used, `VITE_CALENDLY_URL` for Production (and Preview if wanted).
+2. In Project Settings > Environment Variables, add `VITE_SITE_URL`, `VITE_FORMSPREE_ENDPOINT` and, if you want a different booking link, `VITE_CALENDLY_URL` for Production (and Preview if wanted).
 3. Deploy. Pushes to `main` deploy to production, and other branches get preview URLs.
 4. Add the custom domain under Project Settings > Domains, set `VITE_SITE_URL` to match, and redeploy.
 5. In Formspree, add the production domain to the form's allowed domains.

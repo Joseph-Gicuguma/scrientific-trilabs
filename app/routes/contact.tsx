@@ -52,7 +52,7 @@ export default function Contact() {
                   ) : (
                     <a
                       href={`mailto:${site.email}`}
-                      className="underline underline-offset-4"
+                      className="inline-flex min-h-6 items-center underline underline-offset-4"
                     >
                       {site.email}
                     </a>
@@ -73,7 +73,7 @@ export default function Contact() {
                   ) : (
                     <a
                       href={site.linkedin}
-                      className="underline underline-offset-4"
+                      className="inline-flex min-h-6 items-center underline underline-offset-4"
                       rel="me"
                     >
                       {details.linkedinLabel}

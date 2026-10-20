@@ -1,19 +1,22 @@
-import { todo, type MaybePending } from "./types";
+import type { MaybePending } from "./types";
 
 export const site = {
   name: "Tri-Lab Scientific",
   legalName: "Tri-Lab Scientific Limited",
-  tagline: "IVD and life-science market entry in East Africa",
+  tagline: "IVD & life-science market access, strategy & growth in East Africa",
   description:
-    "Tri-Lab Scientific takes international IVD and life-science companies from market assessment to registration, partners and sales in East Africa.",
+    "Tri-Lab Scientific helps international IVD and life-science companies assess, enter and grow in East African markets through evidence-led market strategy, regulatory navigation, partner development and in-country commercial execution.",
   founder: "Grace Wanjũgũ Kamau",
   location: {
     city: "Nairobi",
     country: "Kenya",
     countryCode: "KE",
   },
-  email: todo("Contact email address") as MaybePending<string>,
-  linkedin: todo("LinkedIn company page URL") as MaybePending<string>,
+  email: "gracecugu1@gmail.com" as MaybePending<string>,
+  linkedin:
+    "https://www.linkedin.com/company/tri-lab-scientific-limited" as MaybePending<string>,
+  /** Discovery-call booking page. VITE_CALENDLY_URL overrides it. */
+  calendly: "https://calendly.com/gracecugu1/30min",
 } as const;
 
 export const footer = {

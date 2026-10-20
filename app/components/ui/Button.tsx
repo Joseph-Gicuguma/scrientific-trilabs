@@ -10,7 +10,7 @@ type Variant = "primary" | "secondary";
  */
 const base =
   "inline-flex min-h-12 items-center justify-center gap-3 px-6 py-3 font-display text-body font-semibold " +
-  "border-2 border-(--block-fg) transition-colors duration-150 " +
+  "border-2 border-(--block-fg) transition-[color,background-color,border-color] duration-150 " +
   "disabled:cursor-not-allowed disabled:opacity-60";
 
 const variants: Record<Variant, string> = {

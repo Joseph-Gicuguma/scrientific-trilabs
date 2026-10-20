@@ -22,6 +22,7 @@ export const contact = {
   lead: "Tell us about your product and the markets you have in mind. We will reply to set up a call.",
   form: {
     heading: "Send us a note",
+    requiredNote: "All fields are required.",
     fields: {
       name: { label: "Your name", autoComplete: "name" },
       company: { label: "Company", autoComplete: "organization" },

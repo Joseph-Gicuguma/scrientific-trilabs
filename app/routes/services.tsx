@@ -1,10 +1,11 @@
 import { Link } from "react-router";
 import { Container } from "~/components/layout";
+import { howWeWork } from "~/content/how-we-work";
 import { packages, servicesPage } from "~/content/packages";
+import { photos } from "~/content/photos";
 import { pageMeta } from "~/lib/seo";
 import { PackageSection } from "~/sections/services/PackageSection";
 import { CtaBlock, PageHeader } from "~/sections/shared";
-import { howWeWork } from "~/content/how-we-work";
 
 export function meta() {
   return pageMeta({ ...servicesPage.seo, path: "/services" });
@@ -42,8 +43,10 @@ export default function Services() {
         <PackageSection key={pkg.slug} pkg={pkg} number={i + 1} />
       ))}
 
-      <Container className="py-16">
-        <p className="max-w-prose text-lead">{pricing}</p>
+      <Container className="py-16 md:py-24">
+        <p className="max-w-[48ch] font-display text-h3 font-bold tracking-tight">
+          {pricing}
+        </p>
       </Container>
 
       <CtaBlock
@@ -51,6 +54,7 @@ export default function Services() {
         heading={howWeWork.cta.heading}
         body={howWeWork.cta.body}
         action={howWeWork.cta.action}
+        photo={photos.officeCall}
       />
     </>
   );

@@ -1,4 +1,5 @@
 import type { Tone } from "~/lib/tones";
+import type { PhotoKey } from "./photos";
 
 /** Content that has not been supplied yet. Rendered as a visible TODO marker. */
 export interface Pending {
@@ -36,14 +37,31 @@ export interface Package {
   readonly slug: string;
   readonly name: string;
   readonly tone: Tone;
-  /** One line for cards. */
+  /** Key into `photos` (see photos.ts). */
+  readonly photo: PhotoKey;
+  /** The promise in a few words, e.g. "Know how to enter before you commit." */
+  readonly tagline: string;
+  /** Opening paragraph. */
   readonly summary: string;
-  readonly timeline: string;
-  /** Two or three words for cards. */
-  readonly timelineShort: string;
-  readonly includes: readonly string[];
-  readonly forWho: string;
-  readonly outcome: string;
+  /** Second paragraph: how we go about it. */
+  readonly detail: string;
+  /** "What we assess" or "What we support". */
+  readonly includesLabel: string;
+  readonly includes: readonly { label: string; detail: string }[];
+  readonly forWho: {
+    /** Optional sentence before the list. */
+    readonly body?: string;
+    readonly lead: string;
+    readonly items: readonly string[];
+  };
+  /** One or more paragraphs. */
+  readonly outcome: readonly string[];
+  /** Short closing line, e.g. "Clarity before commitment." */
+  readonly closing: string;
+  /** Call-to-action label, e.g. "Discuss your market opportunity". */
+  readonly cta: string;
+  /** Optional further reading. */
+  readonly related?: NavLink;
 }
 
 export interface Step {

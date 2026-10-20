@@ -1,26 +1,17 @@
-import { Block, Container, Grid, Section } from "~/components/layout";
-import { Heading, SectionNumber } from "~/components/ui";
+import { Container, Section } from "~/components/layout";
+import { Heading, Photo, SectionNumber } from "~/components/ui";
 import { howWeWork } from "~/content/how-we-work";
+import { photos } from "~/content/photos";
 import { pageMeta } from "~/lib/seo";
-import type { Tone } from "~/lib/tones";
-import { CtaBlock, PageHeader, SectionHeader } from "~/sections/shared";
+import { CtaBlock, PageHeader } from "~/sections/shared";
 
 export function meta() {
   return pageMeta({ ...howWeWork.seo, path: "/how-we-work" });
 }
 
-/** Two rows of three. Green and sage never touch. */
-const stepTones: readonly Tone[] = [
-  "paper",
-  "green",
-  "cream",
-  "orange",
-  "ink",
-  "sage",
-];
-
 export default function HowWeWork() {
-  const { intro, stepsHeading, steps, regulatory, cta } = howWeWork;
+  const { intro, stepsHeading, steps, closing, cta } = howWeWork;
+  const photo = photos.labResearcher;
   return (
     <>
       <PageHeader
@@ -29,52 +20,56 @@ export default function HowWeWork() {
         lead={intro.body}
       />
 
-      <Section labelledBy="steps-heading">
-        <h2 id="steps-heading" className="sr-only">
-          {stepsHeading}
-        </h2>
-        <Grid gap="none" as="ol">
-          {steps.map((step, i) => (
-            <Block
-              key={step.title}
-              as="li"
-              tone={stepTones[i] ?? "paper"}
-              className="col-span-4 flex min-h-80 flex-col justify-between gap-10 md:col-span-6 lg:col-span-4"
-            >
-              <SectionNumber value={i + 1} size="h2" />
-              <div>
-                <Heading level={3}>{step.title}</Heading>
-                <p className="mt-4 max-w-[38ch]">{step.body}</p>
-              </div>
-            </Block>
-          ))}
-        </Grid>
-      </Section>
+      <Photo
+        picture={photo.picture}
+        alt=""
+        sizes="100vw"
+        className="aspect-[16/9] md:aspect-[21/8]"
+        imgClassName="object-[center_30%]"
+      />
 
-      <Section tone="ink" labelledBy="regulatory-heading">
-        <SectionHeader id="regulatory-heading" intro={regulatory.intro} />
-        <Container className="pb-section">
-          <dl className="grid border-t-2 border-(--block-fg) md:grid-cols-2">
-            {regulatory.items.map((item) => (
-              <div
-                key={item.title}
-                className="border-b-2 border-(--block-fg) py-8 md:odd:pr-10 md:even:border-l-2 md:even:pl-10"
+      <Section tone="ink" labelledBy="steps-heading" className="py-section">
+        <Container>
+          <h2 id="steps-heading" className="sr-only">
+            {stepsHeading}
+          </h2>
+          <ol className="border-t-2 border-(--block-fg)/20">
+            {steps.map((step, i) => (
+              <li
+                key={step.title}
+                className="grid gap-x-gutter gap-y-3 border-b-2 border-(--block-fg)/20 py-10 md:grid-cols-12"
               >
-                <dt className="font-display text-h3 font-bold tracking-tight">
-                  {item.title}
-                </dt>
-                <dd className="mt-3 max-w-prose">{item.body}</dd>
-              </div>
+                <SectionNumber
+                  value={i + 1}
+                  size="h2"
+                  className="text-orange md:col-span-2"
+                />
+                <Heading level={3} className="md:col-span-4">
+                  {step.title}
+                </Heading>
+                <p className="max-w-prose text-lead md:col-span-6">
+                  {step.body}
+                </p>
+              </li>
             ))}
-          </dl>
+          </ol>
         </Container>
       </Section>
+
+      <div data-tone="sage">
+        <Container className="py-16 md:py-24">
+          <p className="max-w-[22ch] font-display text-h2 font-bold tracking-display">
+            {closing}
+          </p>
+        </Container>
+      </div>
 
       <CtaBlock
         id="how-cta-heading"
         heading={cta.heading}
         body={cta.body}
         action={cta.action}
+        photo={photos.officeCall}
       />
     </>
   );

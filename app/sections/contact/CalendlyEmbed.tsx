@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button, Heading, TodoMark } from "~/components/ui";
 import { contact } from "~/content/contact";
+import { site } from "~/content/site";
 import { todo } from "~/content/types";
 
 interface CalendlyEmbedProps {
@@ -12,7 +13,7 @@ interface CalendlyEmbedProps {
  * and no tracking until the visitor chooses to book.
  */
 export function CalendlyEmbed({
-  url = import.meta.env.VITE_CALENDLY_URL,
+  url = import.meta.env.VITE_CALENDLY_URL || site.calendly,
 }: CalendlyEmbedProps) {
   const [loaded, setLoaded] = useState(false);
   const copy = contact.calendly;

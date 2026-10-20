@@ -92,7 +92,7 @@ const og = `<!doctype html><html><head>${head}</head><body>
 <div style="width:1200px;height:630px;display:grid;grid-template-columns:640px 560px;">
   <div style="padding:56px;display:flex;flex-direction:column;justify-content:space-between;">
     <h1 style="font-family:'Inter Tight';font-weight:750;font-size:64px;line-height:0.95;letter-spacing:-0.045em;">
-      The world's best diagnostics, in East African labs sooner.
+      Bringing the world's best diagnostics to East Africa.
     </h1>
     <div style="display:flex;align-items:center;gap:16px;font-family:'Inter Tight';font-weight:700;font-size:28px;letter-spacing:-0.02em;">
       <svg width="84" height="28" viewBox="0 0 84 28">
